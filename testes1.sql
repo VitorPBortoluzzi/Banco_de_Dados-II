@@ -99,11 +99,29 @@ else
 
 
 --=======================
-DECLARE @valor INT
+
 SET @valor = 0
 
 WHILE @valor<10
 	BEGIN
 		PRINT 'Número: ' + CAST(@valor AS VARCHAR(2))
+		SET @valor = @valor+1
+	END
+
+
+--====================
+
+--Usando while mude todas as datas de nascimento dos autores
+select count(*) from Autor;
+select * from autor;
+select MAX(id) from Autor;
+
+DECLARE @valor INT
+SET @valor = 0
+While @valor<(select MAX(id) from Autor)
+	Begin
+		Update Autor
+		SET Autor.data_nascimento = '2001-01-01'
+		where autor.id = @valor;
 		SET @valor = @valor+1
 	END
