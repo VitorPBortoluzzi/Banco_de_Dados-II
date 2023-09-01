@@ -125,3 +125,58 @@ While @valor<(select MAX(id) from Autor)
 		where autor.id = @valor;
 		SET @valor = @valor+1
 	END
+
+--===================================================================
+
+--TRIGGER
+--Usando AFTER
+CREATE TRIGGER TGR_PRIMEIRO
+on dbo.Editora
+AFTER INSERT
+AS
+PRINT 'OLA COMO VAI';
+
+--Ativando o Trigger
+Select * from Editora;
+INSERT INTO Editora (nome) VALUES ('Editora do Juca');
+
+--Remover o Trigger Criado:
+--DROP TRIGGER TGR_PRIMEIRO;
+
+--==================================================================
+
+select * from editora;
+
+CREATE TRIGGER TGR_TESTE_I
+on dbo.Editora 
+AFTER INSERT 
+AS
+DELETE FROM dbo.Editora where Nome like '%Editora do Juca%';
+
+--Ativando o Trigger
+Select * from Editora;
+INSERT INTO Editora (nome) VALUES ('Editora do Juca');
+
+--Remover o Trigger Criado:
+--DROP TRIGGER TGR_TESTE_I;
+
+--==================================================================
+
+CREATE TRIGGER TGR_Duplicado
+on dbo.Editora 
+INSTEAD OF INSERT 
+AS
+	BEGIN
+		DECLARE @nome VARCHAR(100);
+		SELECT @nome = nome FROM inserted;
+		Print 'Nome: ' + @nome;
+	END;
+
+--Ativando o Trigger
+Select * from Editora;
+INSERT INTO Editora (nome) VALUES ('Editora do Juca');
+
+--Remover o Trigger Criado:
+--DROP TRIGGER TGR_Duplicado;
+
+--==================================================================
