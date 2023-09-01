@@ -162,6 +162,7 @@ INSERT INTO Editora (nome) VALUES ('Editora do Juca');
 
 --==================================================================
 
+--USANDO INSTEAD OF
 CREATE TRIGGER TGR_Duplicado
 on dbo.Editora 
 INSTEAD OF INSERT 
@@ -170,13 +171,20 @@ AS
 		DECLARE @nome VARCHAR(100);
 		SELECT @nome = nome FROM inserted;
 		Print 'Nome: ' + @nome;
+		if(Exists(Select * From Editora where nome like (@nome)))
+			Print 'Nome já inserido';
+		Else 
+			Begin	
+				INSERT INTO Editora (nome) VALUES (@nome);
+				Print @nome + ' Cadastrada com sucesso';
+			End
 	END;
 
 --Ativando o Trigger
 Select * from Editora;
-INSERT INTO Editora (nome) VALUES ('Editora do Juca');
+INSERT INTO Editora (nome) VALUES ('E123');
 
 --Remover o Trigger Criado:
---DROP TRIGGER TGR_Duplicado;
+DROP TRIGGER TGR_Duplicado;
 
 --==================================================================
