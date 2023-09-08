@@ -188,3 +188,25 @@ INSERT INTO Editora (nome) VALUES ('E123');
 DROP TRIGGER TGR_Duplicado;
 
 --==================================================================
+
+--Trigger Para afetar outras tabelas.
+CREATE TRIGGER tg_after
+on dbo.Editora
+after insert
+As
+	Begin
+	Declare @n_editora int;
+	Select @n_editora = id from inserted;
+		Insert into Autor Values ('traz','Brasil');
+		Insert into Livro Values ('20232','Batata','2023',@n_editora,1);
+	End;
+
+drop Trigger tg_after;
+
+Insert into dbo.Editora VALUES ('Feijoada');
+
+
+--Ativar Recursividade
+
+Alter database Biblioteca
+Set Recursive_Triggers on;
