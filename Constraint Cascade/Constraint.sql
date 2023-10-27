@@ -84,7 +84,7 @@ Insert into tbl_inventarios Values
 (2,4,50,5,50),
 (3,2,1000,5,5000);
 
-drop table tbl_inventarios;
+--drop table tbl_inventarios;
 
 Select * from tbl_produto;
 Select * from tbl_inventarios;
@@ -103,3 +103,7 @@ foreign key (fk_id_produto)
 references tbl_produto (id_produto)
 on update cascade
 on delete set NULL; -- pode ser set default
+
+
+--Remover o energético
+Delete from tbl_produto where id_produto = 4;
