@@ -95,3 +95,57 @@ as
 return
 	(Select * from Disciplina where id= @id);
 Go
+
+Select * from fncDisciplina(3);
+--Conceder acesso a função;
+Grant select on fncDisciplina to Vitor;
+Go
+
+--Fazendo uso de View;
+Create view vw_Disciplina
+AS
+Select data,nome from Disciplina;
+Go
+
+--Conceder visão Ao vitor das View's do banco
+Grant select on vw_Disciplina to Vitor;
+Go
+
+Create procedure sp_Disciplina_01
+as
+select * from disciplina;
+Go
+--Dando acesso ao procedure
+--Dar acesso á Execução, e não ao Select do procedure
+Grant Execute on sp_Disciplina_01 to Vitor;
+go
+
+Create procedure sp_Disciplina_02
+as
+select * from disciplina;
+Go
+
+Create procedure sp_Disciplina_03
+as
+select * from disciplina;
+Go
+
+Create procedure sp_Disciplina_04
+as
+select * from disciplina;
+Go
+
+-- Dar acesso a execução de todos os procedures
+Grant Execute to Vitor;
+go
+
+Create procedure sp_Disciplina_05
+as
+select * from disciplina;
+Go
+--Não quero que vitor tenha acesso ao procedure 05
+Deny execute on sp_Disciplina_05 to Vitor;
+go
+
+--Negar select 
+Deny select to Vitor;
