@@ -1,0 +1,149 @@
+7 & 8 = 1 Ponto
+Resto 0,5;
+
+Multipla escolha:
+
+3)Banco de dados Temporal;
+	-> <d>
+
+4)Tipos de BD Temporal;
+	-> <Tempo instantaneo>
+
+5)Restrições de integridade;
+	-> <Consistencia>
+
+6)Restrição de integridade procedural(procedure's/trigger) x declarativa(Create,int,var,float,char,date...);
+	-> <?>
+	OBS:8. 1-9 Criação tabela professor(declarativas), 10 Proceddural(Trigger <nova turma>, trigger <remover turma professor>)
+
+
+
+
+9)Utilização de VIEW(Consulta armazenada,tabela virtual - memória);
+	-> <d>...Facilitar consultas complexas<
+
+10)Vantagens em usar VIEW's em BD;
+	-> <a> ->V,F,F,F,V<
+
+12)Importancia das funcionalidade gerencia de acesso;
+	-> <a>
+	
+
+14(DML - Data Manipulation Language)
+
+
+++++++++++++++++++=================+++++++++++++++++++++++++++++++++++++
+1- Criação de trigger/tabela de log
+
+Trigger no Insert e Delete
+from inserted & from deleted before
+
+--------------------------------------------------------------------------
+
+2-Create Procedure aumenta_Salario
+(@porcentagem(5,2)
+@Dnome varchar(15)
+
+
+Update funcionario
+set Salario = Salario + Salario*(@Porcentagem/100)
+where dmr in (Select Dnumero From departamento where dnome = @dnome)
+
+
+==========================================================================
+7-
+
+Criação tabela & letra e<Ideia da tabela temporal>
+--------------------------------------------------------------------------
+
+Create table questao_7 
+(
+Nome varchar(255)
+...
+Systarttime datetime2 Generated always as row start hidden not null,
+Sysendtime datetime2 Generated always as row start hidden not null,
+Period of system_time (sysStartTime, SysEndTime)
+)
+with (System_versioning = on (History_table = dbo.Questao7Historico);
+Go
+
+--B Insert
+Insert into questao_7;
+
+--C Promoções
+Update questao_7 
+set ...
+where ...
+
+--D Select tabela Historico
+Select Nome, cargo,salario,systarttime as 'data inicio', sysendtime as 'data fim'
+from questa7Historico
+where
+
+--e
+select
+from questao_7
+for system_time as of '2023-11-17'
+
+==========================================================================
+ 8- Constraints
+
+Create table ...(
+Nome nvchar(100) not null,
+Rg nvarchar(20) unique,
+sexo char(1) check (Sexo in ('M', 'F')
+Idade int check (idade between (21 and 70),
+Titulação varchar(20) check (Titulação in ('especialista','mestrado','...')
+Categoria varchar(20),
+Numero turmas int default 0,
+Constraint Ck_professor_Categoria Check(
+Titulação = 'Doutor' and categoria in ('adjunto','titular') or
+Titulação = 'pós-doutor' and categoria in ('adjunto','titular') or
+Titulação = 'mestre' and categoria in ('assistente') or
+Titulação = 'Doutor' and categoria in ('adjunto','titular')
+)
+);
+	
+
+
+--B
+Create table turmas(
+...
+Vagas int check (Vagas >0)
+)
+
+--C
+Create table dependentes(
+...
+Foreing keu (Professor id) References Professir(professorID)
+on delete cascade
+)
+
+==============================================================================
+10
+trigger inset & delete
+update professores
+set numeroturmas = numeroturmas +1
+where professorId in (Select ProfessorId from inserted)
+
+update professores
+set numeroturmas = numeroturmas -1
+where professorId in (Select ProfessorId from deleted)
+
+
+==============================================================================
+11
+join departamento d on f.departamentoNumero = d.numero
+join trabalha em on f.cpf = te.cpf
+join projeto p on te.prn = p.projnumeros
+
+==============================================================================
+13
+Mapeamento de usuario Empresa
+public
+Grant select on vw_FuncionariosDepartamentosProjetos to Juquinha02;
+
+==============================================================================
+14
+reader & writer (DML)
+Grant select,delete,insert,update on database::Empresa to nome_usuario Juquinha02;
